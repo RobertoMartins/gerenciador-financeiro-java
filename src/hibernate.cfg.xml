@@ -26,6 +26,7 @@
 		-->
 		<!-- Mapeando classes --> 
 		<mapping class="br.com.javaparaweb.financeiro.usuario.Usuario"/>
+		<mapping class="br.com.javaparaweb.financeiro.conta.Conta"/>
 		
 	</session-factory>
 </hibernate-configuration>
