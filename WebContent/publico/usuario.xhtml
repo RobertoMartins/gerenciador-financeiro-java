@@ -25,7 +25,7 @@
 			<h:inputText id="data" label="Data Nascimento"
 				value="#{usuarioBean.usuario.nascimento}" size="10" maxlength="10"
 				required="true">
-				<f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+				<f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT-3" />
 			</h:inputText>
 
 			<h:outputLabel value="Celular:" for="celular" />
@@ -68,6 +68,23 @@
 				required="true" redisplay="true" />
 		</h:panelGrid>
 
+		<h:panelGroup rendered="#{empty usuarioBean.usuario.codigo}">
+			<fieldset>
+				<legend>Conta Inicial</legend>
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Descrição: " for="descricao" />
+					<h:inputText id="descricao" label="Descrição"
+						value="#{usuarioBean.conta.descricao}" required="true"
+						maxlength="45" />
+
+					<h:outputLabel value="Saldo Inicial: " for="saldoInicial" />
+					<h:inputText id="saldoInicial"
+						value="#{usuarioBean.conta.saldoInicial}" size="10">
+						<f:convertNumber minFractionDigits="2" />
+					</h:inputText>
+				</h:panelGrid>
+			</fieldset>
+		</h:panelGroup>
 		<h:commandButton action="#{usuarioBean.salvar}" value="Salvar" />
 	</h:form>
 </h:body>

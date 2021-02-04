@@ -35,6 +35,21 @@ public class ContextoBean implements Serializable {
 		return null;
 	}
 
+	public Conta getContaAtiva() {
+		Conta contaAtiva = null;
+		if (this.codigoContaAtiva == 0) {
+			contaAtiva = this.getContaAtivaPadrao();
+		} else {
+			ContaRN contaRN = new ContaRN();
+			contaAtiva = contaRN.carregar(this.codigoContaAtiva);
+		}
+		if (contaAtiva != null) {
+			this.codigoContaAtiva = contaAtiva.getConta();
+			return contaAtiva;
+		}
+		return null;
+	}
+
 	private Conta getContaAtivaPadrao() {
 		ContaRN contaRN = new ContaRN();
 		Conta contaAtiva = null;
