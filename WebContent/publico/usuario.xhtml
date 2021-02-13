@@ -27,7 +27,9 @@
 				<h:inputText id="data" label="Data Nascimento"
 					value="#{usuarioBean.usuario.nascimento}" size="10" maxlength="10"
 					required="true">
-					<f:convertDateTime dateStyle="medium" />
+					<!-- <f:convertDateTime dateStyle="medium" />  -->
+					<f:convertDateTime type="date" pattern="dd/MM/yyyy"
+						timeZone="GMT-3" />
 				</h:inputText>
 
 				<h:outputLabel value="Celular:" for="celular" />
