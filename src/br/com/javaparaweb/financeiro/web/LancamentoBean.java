@@ -7,14 +7,21 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import br.com.javaparaweb.financeiro.categoria.Categoria;
+import br.com.javaparaweb.financeiro.cheque.Cheque;
+import br.com.javaparaweb.financeiro.cheque.ChequeId;
+import br.com.javaparaweb.financeiro.cheque.ChequeRN;
 import br.com.javaparaweb.financeiro.conta.Conta;
 import br.com.javaparaweb.financeiro.lancamento.Lancamento;
 import br.com.javaparaweb.financeiro.lancamento.LancamentoRN;
+import br.com.javaparaweb.financeiro.util.RNException;
 
 @ManagedBean(name = "lancamentoBean")
 @ViewScoped
@@ -25,6 +32,7 @@ public class LancamentoBean implements Serializable {
 	private List<Double> saldos;
 	private float saldoGeral;
 	private Lancamento editado = new Lancamento();
+	private Integer numeroCheque;
 
 	@ManagedProperty(value = "#{contextoBean}")
 	private ContextoBean contextoBean;
@@ -36,21 +44,61 @@ public class LancamentoBean implements Serializable {
 	public String novo() {
 		this.editado = new Lancamento();
 		this.editado.setData(new Date());
+		this.numeroCheque = null;
 		return null;
 	}
 
 	public void editar() {
+		Cheque cheque = this.editado.getCheque();
+		if (cheque != null) {
+			this.numeroCheque = cheque.getChequeId().getCheque();
+		}
+
 	}
 
 	public void salvar() {
 		this.editado.setUsuario(this.contextoBean.getUsuarioLogado());
 		this.editado.setConta(this.contextoBean.getContaAtiva());
 
+		ChequeRN chequeRN = new ChequeRN();
+		ChequeId chequeId = null;
+		if (this.numeroCheque != null) {
+			chequeId = new ChequeId();
+			chequeId.setConta(this.contextoBean.getContaAtiva().getConta());
+			chequeId.setCheque(this.numeroCheque);
+			Cheque cheque = chequeRN.carregar(chequeId);
+			FacesContext context = FacesContext.getCurrentInstance();
+			if (cheque == null) {
+				context.addMessage(null, new FacesMessage("Cheque não cadastrado"));
+				return;
+			} else if (cheque.getSituacao() == Cheque.SITUACAO_CHEQUE_CANCELADO) {
+				context.addMessage(null, new FacesMessage("Cheque já cancelado"));
+				return;
+			} else {
+				this.editado.setCheque(cheque);
+				chequeRN.baixarCheque(chequeId, this.editado);
+			}
+		}
+
 		LancamentoRN lancamentoRN = new LancamentoRN();
 		lancamentoRN.salvar(this.editado);
 
 		this.novo();
 		this.lista = null;
+	}
+
+	public void mudouCheque(ValueChangeEvent event) {
+		Integer chequeAnterior = (Integer) event.getOldValue();
+		if (chequeAnterior != null) {
+			ChequeRN chequeRN = new ChequeRN();
+			try {
+				chequeRN.desvinculaLancamento(contextoBean.getContaAtiva(), chequeAnterior);
+			} catch (RNException e) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(e.getMessage()));
+				return;
+			}
+		}
 	}
 
 	public void excluir() {
@@ -128,5 +176,13 @@ public class LancamentoBean implements Serializable {
 
 	public void setLista(List<Lancamento> lista) {
 		this.lista = lista;
+	}
+
+	public void setNumeroCheque(Integer numeroCheque) {
+		this.numeroCheque = numeroCheque;
+	}
+
+	public Integer getNumeroCheque() {
+		return numeroCheque;
 	}
 }
