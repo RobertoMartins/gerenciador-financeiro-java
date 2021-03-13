@@ -7,8 +7,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
-import br.com.javaparaweb.financeiro.conta.*;
-import br.com.javaparaweb.financeiro.usuario.*;
+import br.com.javaparaweb.financeiro.conta.Conta;
+import br.com.javaparaweb.financeiro.conta.ContaRN;
+import br.com.javaparaweb.financeiro.usuario.Usuario;
+import br.com.javaparaweb.financeiro.usuario.UsuarioRN;
+import br.com.javaparaweb.financeiro.util.RNException;
+
 
 @ManagedBean(name = "usuarioBean")
 @RequestScoped
@@ -24,7 +28,7 @@ public class UsuarioBean {
 		this.usuario = new Usuario();
 		this.usuario.setAtivo(true);
 		return "/publico/usuario";
-	}
+	}	
 
 	public String editar() {
 		this.confirmarSenha = this.usuario.getSenha();
@@ -33,24 +37,29 @@ public class UsuarioBean {
 
 	public String salvar() {
 		FacesContext context = FacesContext.getCurrentInstance();
-
 		String senha = this.usuario.getSenha();
 		if (!senha.equals(this.confirmarSenha)) {
-			FacesMessage facesMessage = new FacesMessage("A senha não foi confirmada corretamente");
+			FacesMessage facesMessage = new FacesMessage(	"A senha não foi confirmada corretamente");
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-
 		UsuarioRN usuarioRN = new UsuarioRN();
 		usuarioRN.salvar(this.usuario);
-
 		if (this.conta.getDescricao() != null) {
 			this.conta.setUsuario(this.usuario);
 			this.conta.setFavorita(true);
 			ContaRN contaRN = new ContaRN();
 			contaRN.salvar(this.conta);
 		}
-
+		// Envia email após o cadastramento de um usuário novo
+		if (this.destinoSalvar.equals("usuariosucesso")) { 
+			try {
+				usuarioRN.enviarEmailPosCadastramento(this.usuario);
+			} catch (RNException e) {
+				context.addMessage(null, new FacesMessage(e.getMessage()));
+				return null;
+			}
+		}
 		return this.destinoSalvar;
 	}
 
