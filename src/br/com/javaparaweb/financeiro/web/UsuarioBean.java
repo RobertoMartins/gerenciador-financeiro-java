@@ -2,15 +2,15 @@ package br.com.javaparaweb.financeiro.web;
 
 import java.util.List;
 
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
-import br.com.javaparaweb.financeiro.conta.Conta;
-import br.com.javaparaweb.financeiro.conta.ContaRN;
-import br.com.javaparaweb.financeiro.usuario.Usuario;
-import br.com.javaparaweb.financeiro.usuario.UsuarioRN;
+import br.com.javaparaweb.financeiro.conta.*;
+import br.com.javaparaweb.financeiro.usuario.*;
+
 import br.com.javaparaweb.financeiro.util.RNException;
 
 
@@ -28,7 +28,7 @@ public class UsuarioBean {
 		this.usuario = new Usuario();
 		this.usuario.setAtivo(true);
 		return "/publico/usuario";
-	}	
+	}
 
 	public String editar() {
 		this.confirmarSenha = this.usuario.getSenha();
@@ -62,7 +62,8 @@ public class UsuarioBean {
 		}
 		return this.destinoSalvar;
 	}
-
+	
+	
 	public String excluir() {
 		UsuarioRN usuarioRN = new UsuarioRN();
 		usuarioRN.excluir(this.usuario);

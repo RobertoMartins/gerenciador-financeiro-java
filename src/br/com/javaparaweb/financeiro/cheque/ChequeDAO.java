@@ -1,6 +1,5 @@
 package br.com.javaparaweb.financeiro.cheque;
 
-
 import java.util.List;
 
 import br.com.javaparaweb.financeiro.conta.Conta;

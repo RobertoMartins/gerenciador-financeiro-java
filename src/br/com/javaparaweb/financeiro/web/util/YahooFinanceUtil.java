@@ -13,17 +13,17 @@ public class YahooFinanceUtil {
 	public static final char ORIGEM_BOVESPA = 'B';
 
 	public static final String SUFIXO_ACAO_BOVESPA = ".SA";
-	public static final String SIGLA_BOVESPA = "^BVSP";
+	public static final String SIGLA_BOVESPA = "BRL";//^BVSP";
 
 	public static final int INDICE_SIGLA_ACAO = 0;
-	public static final int INDICE_ULTIMO_PRECO_DIA_ACAO = 1;
-	public static final int INDICE_DATA_NEGOCIACAO_ACAO = 2;
-	public static final int INDICE_HORA_NEGOCIACAO_ACAO = 3;
-	public static final int INDICE_VARIACAO_DIA_ACAO = 4;
-	public static final int INDICE_PRECO_ABERTURA_DIA_ACAO = 5;
-	public static final int INDICE_MAIOR_PRECO_DIA_ACAO = 6;
-	public static final int INDICE_MENOR_PRECO_DIA_ACAO = 7;
-	public static final int INDICE_VOLUME_NEGOCIADO_DIA_ACAO = 8;
+	public static final int INDICE_ULTIMO_PRECO_DIA_ACAO = 4;
+	public static final int INDICE_DATA_NEGOCIACAO_ACAO = 0;
+	public static final int INDICE_HORA_NEGOCIACAO_ACAO = 0;
+	public static final int INDICE_VARIACAO_DIA_ACAO = 6;
+	public static final int INDICE_PRECO_ABERTURA_DIA_ACAO = 1;
+	public static final int INDICE_MAIOR_PRECO_DIA_ACAO = 2;
+	public static final int INDICE_MENOR_PRECO_DIA_ACAO = 3;
+	public static final int INDICE_VOLUME_NEGOCIADO_DIA_ACAO = 5;
 
 	public static String getSiglaLink(Acao acao) {
 		if (acao == null || acao.getSigla() == null) {
@@ -37,7 +37,8 @@ public class YahooFinanceUtil {
 	public static String getInfoCotacao(int indiceInformacao, Acao acao) throws UtilException {
 		String sigla = getSiglaLink(acao);
 		try {
-			String endereco = "http://download.finance.yahoo.com/d/quotes.csv?s=" + sigla + "&f=sl1d1t1c1ohgv&e=.csv";
+			//String endereco = "http://download.finance.yahoo.com/d/quotes.csv?s=" + sigla + "&f=sl1d1t1c1ohgv&e=.csv";
+                        String endereco = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=" + sigla  + "&apikey=1BRIVHRJMWSVKXA8&datatype=csv";
 			URL url = new URL(endereco);
 			URLConnection conexao = url.openConnection();
 			InputStreamReader conteudo = new InputStreamReader(conexao.getInputStream());
@@ -57,7 +58,7 @@ public class YahooFinanceUtil {
 			}
 			return "0";
 		} catch (IOException e) {
-			throw new UtilException("Não foi possível recuperar cotação. Erro: " + e.getMessage());
+			throw new UtilException("NÃo foi possÃ­vel recuperar cotaÃ§Ã£o. Erro: " + e.getMessage());
 		}
 	}
 }

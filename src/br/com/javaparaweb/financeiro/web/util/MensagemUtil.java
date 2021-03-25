@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import javax.faces.context.FacesContext;
 
 public class MensagemUtil {
-    
+        
 	private static final String PACOTE_MENSAGENS_IDIOMAS = "br.com.javaparaweb.financeiro.idioma.mensagens";
 
 	public static String getMensagem(String propriedade) {

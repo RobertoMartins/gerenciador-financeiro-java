@@ -84,7 +84,7 @@ public class AcaoBean {
 			this.percentualValor.setDataFormat("percent");
 			for (AcaoVirtual acaoVirtual : acoes) {
 				Acao acao = acaoVirtual.getAcao();
-				this.percentualValor.set(acao.getSigla(), acaoVirtual.getTotal());
+				this.percentualValor.set(acao.getSigla(), acao.getQuantidade());
 			}
 		}
 		return this.percentualValor;

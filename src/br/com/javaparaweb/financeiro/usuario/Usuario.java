@@ -1,38 +1,30 @@
 package br.com.javaparaweb.financeiro.usuario;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.io.*;
+import java.util.*;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.UniqueConstraint;
-
 @Entity
 public class Usuario implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue
-	private Integer codigo;
-	private String nome;
-	private String email;
+	private Integer	codigo;
+	private String		nome;
+	private String		email;
 	@org.hibernate.annotations.NaturalId
-	private String login;
-	private String senha;
-	private Date nascimento;
-	private String celular;
-	private String idioma;
-	private boolean ativo;
+	private String	login;
+	private String	senha;
+	private Date	nascimento;
+	private String	celular;
+	private String	idioma;
+	private boolean	ativo;
 
 	@ElementCollection(targetClass = String.class) 
 	@JoinTable(
@@ -41,7 +33,7 @@ public class Usuario implements Serializable {
 			joinColumns = @JoinColumn(name = "usuario")) 
 	@Column(name = "permissao", length=50) 
 	private Set<String>	permissao	= new HashSet<String>();
-	
+
 	public Integer getCodigo() {
 		return codigo;
 	}
@@ -196,8 +188,5 @@ public class Usuario implements Serializable {
 		} else if (!senha.equals(other.senha))
 			return false;
 		return true;
-	}
-
-	
-
+	} 
 }

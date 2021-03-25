@@ -53,10 +53,10 @@ public class ContaBean {
 	public StreamedContent getArquivoRetorno() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		String usuario = contextoBean.getUsuarioLogado().getLogin();
-		String nomeRelatorioJasper = "contas"; // (1)
-		String nomeRelatorioSaida = usuario + "contas"; // (_2)
+		String nomeRelatorioJasper = "contas"; // (_1_)
+		String nomeRelatorioSaida = usuario + "_contas"; // (_2_)
 		RelatorioUtil relatorioUtil = new RelatorioUtil();
-		HashMap parametrosRelatorio = new HashMap(); // (3)
+		HashMap parametrosRelatorio = new HashMap(); // (_3_)
 		parametrosRelatorio.put("codigoUsuario", contextoBean.getUsuarioLogado().getCodigo());
 		try {
 			this.arquivoRetorno = relatorioUtil.geraRelatorio(parametrosRelatorio, nomeRelatorioJasper,

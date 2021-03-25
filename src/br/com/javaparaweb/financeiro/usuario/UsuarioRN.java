@@ -3,10 +3,13 @@ package br.com.javaparaweb.financeiro.usuario;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import br.com.javaparaweb.financeiro.categoria.CategoriaRN;
 import br.com.javaparaweb.financeiro.util.DAOFactory;
 import br.com.javaparaweb.financeiro.util.RNException;
 import br.com.javaparaweb.financeiro.util.UtilException;
+import br.com.javaparaweb.financeiro.web.util.EmailUtil;
 import br.com.javaparaweb.financeiro.web.util.GmailUtil;
 import br.com.javaparaweb.financeiro.web.util.MensagemUtil;
 
@@ -26,6 +29,7 @@ public class UsuarioRN {
 	}
 
 	public void salvar(Usuario usuario) {
+		//BCryptPasswordEncoder crypt = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion);
 		Integer codigo = usuario.getCodigo();
 		if (codigo == null || codigo == 0) {
 			usuario.getPermissao().add("ROLE_USUARIO");
@@ -46,7 +50,7 @@ public class UsuarioRN {
 				usuario.getSenha());
 		try {
 			GmailUtil emailUtil = new GmailUtil();
-			emailUtil.enviarEmail("medpriceweb@gmail.com", usuario.getEmail(), titulo, mensagem);
+			emailUtil.enviarEmail("ifgoianotestemail@gmail.com", usuario.getEmail(), titulo, mensagem);
 		} catch (UtilException e) {
 			throw new RNException(e);
 		}

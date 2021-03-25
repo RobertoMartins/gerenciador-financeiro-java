@@ -11,7 +11,6 @@ import javax.faces.bean.ViewScoped;
 import br.com.javaparaweb.financeiro.conta.Conta;
 import br.com.javaparaweb.financeiro.lancamento.Lancamento;
 import br.com.javaparaweb.financeiro.lancamento.LancamentoRN;
-
 @ViewScoped
 @ManagedBean
 public class PrincipalBean {

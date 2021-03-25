@@ -2,8 +2,6 @@ package br.com.javaparaweb.financeiro.web.util;
 
 import java.util.Date;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.mail.Session;
 import javax.naming.Context;
@@ -14,6 +12,8 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
 import br.com.javaparaweb.financeiro.util.UtilException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class EmailUtil {
 	public void enviarEmail(String de, String para, String assunto, String mensagem) throws UtilException {
@@ -35,7 +35,7 @@ public class EmailUtil {
                         session = (Session) envContext.lookup("mail/Session");
                     } catch (NamingException ex) {
                         Logger.getLogger(EmailUtil.class.getName()).log(Level.SEVERE, null, ex);
-                    }       
+                    }
 			SimpleEmail email = new SimpleEmail();
 			email.setMailSession(session);
 			if (de != null) {

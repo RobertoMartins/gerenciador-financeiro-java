@@ -1,4 +1,4 @@
-package br.com.javaparaweb.finaceiro.converter;
+package br.com.javaparaweb.financeiro.web.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

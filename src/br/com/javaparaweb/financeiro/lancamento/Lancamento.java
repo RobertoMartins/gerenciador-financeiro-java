@@ -57,14 +57,6 @@ public class Lancamento implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "lancamento")
 	private Cheque cheque;
 
-	public Cheque getCheque() {
-		return cheque;
-	}
-
-	public void setCheque(Cheque cheque) {
-		this.cheque = cheque;
-	}
-
 	public Integer getLancamento() {
 		return lancamento;
 	}
@@ -188,4 +180,11 @@ public class Lancamento implements Serializable {
 		return true;
 	}
 
+	public Cheque getCheque() {
+		return cheque;
+	}
+
+	public void setCheque(Cheque cheque) {
+		this.cheque = cheque;
+	}
 }
